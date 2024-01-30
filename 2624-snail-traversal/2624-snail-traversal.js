@@ -7,17 +7,23 @@ Array.prototype.snail = function(rowsCount, colsCount) {
     if(this.length !== rowsCount*colsCount) {
         return []
     } else {
-        let result = new Array(rowsCount).fill(0).map(() => new Array(colsCount).fill(0))
-        let isReversed = true
+        let result = []
+        let down = true
+        let row = 0
 
         for (let i = 0; i < this.length; i++) {
-            const row = isReversed ? i % rowsCount : rowsCount - 1 - (i % rowsCount)
-            const col = Math.floor(i / rowsCount)
-            
-            result[row][col] = this[i]
-            
-            if ((i % rowsCount) === rowsCount - 1) {
-                isReversed = !isReversed;
+            if (i != 0 && i % rowsCount == 0) {
+                down = !down;
+            }
+
+            if (down && row < rowsCount) {
+                result[row]
+                    ? result[row].push(this[i])
+                    : (result[row] = [this[i]]);
+                row++;
+            } else if (!down) {
+                row--;
+                result[row].push(this[i]);
             }
         }
 
