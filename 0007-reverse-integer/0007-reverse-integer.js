@@ -3,16 +3,19 @@
  * @return {number}
  */
 var reverse = function (x) {
-    let helper = function(num) {
-        if (Math.abs(num) < 10) return num;
-        return (
-            (num % 10) * 10 ** (Math.abs(num).toString().length - 1) +
-            helper(Math.round(num / 10 - (num % 10) / 10))
-        );
+    let isPositive = x > 0 ? 1 : -1;
+    x = Math.abs(x).toString();
+    for (let i = 0; i < Math.floor(x.length / 2); i++) {
+        x =
+            x.slice(0, i) +
+            x[x.length - 1 - i] +
+            x.slice(i + 1, x.length - 1 - i) +
+            x[i] +
+            x.slice(x.length - i);
     }
-    
-    let res = helper(x)
-    
-    if(res > 2**31 || res < (-2)**31) return 0
-    return res
+
+    x = (x - 0) * isPositive;
+
+    if (x > 2 ** 31 || x < (-2) ** 31) return 0;
+    return x;
 };
